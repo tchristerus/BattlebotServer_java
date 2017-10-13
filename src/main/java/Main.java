@@ -5,6 +5,9 @@ import java.util.Vector;
 /**
  * Created by on 12/10/2017.
  */
+
+
+
 public class Main {
     public static final Vector/*<RemoteDevice>*/ devicesDiscovered = new Vector();
 
