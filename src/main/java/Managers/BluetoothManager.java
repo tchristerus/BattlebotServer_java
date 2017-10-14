@@ -1,15 +1,19 @@
+package Managers;
+
+import Models.Battlebot;
 import com.intel.bluetooth.RemoteDeviceHelper;
 
+import javax.bluetooth.*;
 import java.io.IOException;
 import java.util.Vector;
-import javax.bluetooth.*;
 
-/**
- * Minimal Device Discovery example.
- */
-public class RemoteDeviceDiscovery {
-
+public class BluetoothManager {
     public final Vector/*<RemoteDevice>*/ devicesDiscovered = new Vector();
+    public BattlebotManager battlebotManager;
+
+    public BluetoothManager(BattlebotManager battlebotManager){
+        this.battlebotManager = battlebotManager;
+    }
 
     public void search() throws IOException, InterruptedException {
 
@@ -35,7 +39,7 @@ public class RemoteDeviceDiscovery {
 
             public void inquiryCompleted(int discType) {
                 System.out.println("Device Inquiry completed!");
-                synchronized(inquiryCompletedEvent){
+                synchronized (inquiryCompletedEvent) {
                     inquiryCompletedEvent.notifyAll();
                 }
             }
@@ -46,15 +50,22 @@ public class RemoteDeviceDiscovery {
             public void servicesDiscovered(int transID, ServiceRecord[] servRecord) {
             }
         };
-
-        synchronized(inquiryCompletedEvent) {
+        synchronized (inquiryCompletedEvent) {
             boolean started = LocalDevice.getLocalDevice().getDiscoveryAgent().startInquiry(DiscoveryAgent.GIAC, listener);
             if (started) {
-                System.out.println("wait for device inquiry to complete...");
                 inquiryCompletedEvent.wait();
-                System.out.println(devicesDiscovered.size() +  " device(s) found");
+                devicesDiscovered.forEach(battlebot -> {
+                    RemoteDevice device = (RemoteDevice)battlebot;
+                    try {
+                        if(device.getFriendlyName(false).contains("bot")) {
+                            battlebotManager.createBattlebot(device);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+                System.out.println("Total bots: " + battlebotManager.getTotalBots());
             }
         }
     }
-
 }
