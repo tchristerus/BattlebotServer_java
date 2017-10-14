@@ -1,4 +1,3 @@
-
 import Managers.BattlebotManager;
 import Managers.SocketManager;
 
@@ -19,7 +18,7 @@ public class Main {
 
         socketManager.startServer();
 
-        battlebotManager = new BattlebotManager();
+        battlebotManager = new BattlebotManager(socketManager);
         battlebotManager.searchBots();
 
     }

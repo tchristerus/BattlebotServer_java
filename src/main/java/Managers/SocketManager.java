@@ -9,7 +9,7 @@ public class SocketManager {
     private SocketConfig socketConfig;
     private SocketIOServer socketServer;
 
-    public SocketManager(String hostname, int port){
+    public SocketManager(String hostname, int port) {
         config = new Configuration();
         config.setHostname(hostname);
         config.setPort(port);
@@ -24,19 +24,19 @@ public class SocketManager {
 
     }
 
-    public void startServer(){
+    public void startServer() {
         socketServer.start();
     }
 
-    public void stopServer(){
+    public void stopServer() {
         socketServer.stop();
     }
 
-    public void registerEvents(){
-        socketServer.addConnectListener(socketIOClient -> sendToAllClients("hi", "Someone connected: " + socketIOClient.getSessionId()));
+    public void registerEvents() {
+        socketServer.addConnectListener(socketIOClient -> sendToAllClients("connected", "Someone connected: " + socketIOClient.getSessionId()));
     }
 
-    public void sendToAllClients(String event, Object data){
+    public void sendToAllClients(String event, Object data) {
         socketServer.getAllClients().forEach(client -> client.sendEvent(event, data));
     }
 

@@ -1,6 +1,5 @@
 package Managers;
 
-import Models.Battlebot;
 import com.intel.bluetooth.RemoteDeviceHelper;
 
 import javax.bluetooth.*;
@@ -11,7 +10,7 @@ public class BluetoothManager {
     public final Vector/*<RemoteDevice>*/ devicesDiscovered = new Vector();
     public BattlebotManager battlebotManager;
 
-    public BluetoothManager(BattlebotManager battlebotManager){
+    public BluetoothManager(BattlebotManager battlebotManager) {
         this.battlebotManager = battlebotManager;
     }
 
@@ -55,9 +54,9 @@ public class BluetoothManager {
             if (started) {
                 inquiryCompletedEvent.wait();
                 devicesDiscovered.forEach(battlebot -> {
-                    RemoteDevice device = (RemoteDevice)battlebot;
+                    RemoteDevice device = (RemoteDevice) battlebot;
                     try {
-                        if(device.getFriendlyName(false).contains("bot")) {
+                        if (device.getFriendlyName(false).contains("bot")) {
                             battlebotManager.createBattlebot(device);
                         }
                     } catch (IOException e) {
