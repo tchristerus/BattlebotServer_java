@@ -19,9 +19,12 @@ public class Main {
 
     public static SocketManager socketManager;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, InterruptedException {
         socketManager = new SocketManager("localhost", 1337);
 
         socketManager.startServer();
+
+        RemoteDeviceDiscovery rmd = new RemoteDeviceDiscovery();
+        rmd.search();
     }
 }
