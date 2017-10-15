@@ -29,8 +29,8 @@ public class BattlebotManager {
         });
     }
 
-    public void createBattlebot(RemoteDevice remoteDevice) {
-        Battlebot battlebot = new Battlebot(remoteDevice);
+    public void createBattlebot(RemoteDevice remoteDevice) throws IOException {
+        Battlebot battlebot = new Battlebot(remoteDevice, socketManager);
         battlebots.add(battlebot);
     }
 
