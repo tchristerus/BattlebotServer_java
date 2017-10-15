@@ -14,12 +14,11 @@ public class Main {
     public static BattlebotManager battlebotManager;
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        socketManager = new SocketManager("localhost", 1337);
+        socketManager = new SocketManager("localhost", 8080);
 
         socketManager.startServer();
 
         battlebotManager = new BattlebotManager(socketManager);
         battlebotManager.searchBots();
-
     }
 }

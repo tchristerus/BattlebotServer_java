@@ -37,6 +37,7 @@ public class SocketManager {
     }
 
     public void sendToAllClients(String event, Object data) {
+
         socketServer.getAllClients().forEach(client -> client.sendEvent(event, data));
     }
 

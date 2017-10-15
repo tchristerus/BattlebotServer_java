@@ -1,0 +1,27 @@
+<html>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <h1>Connecting..</h1>
+  </body>
+</html>
+
+
+
+<script>
+  var socket = io.connect('http://localhost:8080');
+  socket.on('connected', function (data) {
+    $("h1").html('Connection established')
+  });
+
+  socket.on('connected', function(data){
+    $("h1").html(data)
+  });
+
+  socket.on('disconnect', function(data){
+    $("h1").html(data)
+  });
+
+</script>
