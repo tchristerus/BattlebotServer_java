@@ -56,7 +56,7 @@ public class BluetoothManager {
                 devicesDiscovered.forEach(battlebot -> {
                     RemoteDevice device = (RemoteDevice) battlebot;
                     try {
-                        if (device.getFriendlyName(false).contains("bot")) {
+                        if (device.getFriendlyName(false).contains("bt")) {
                             battlebotManager.createBattlebot(device);
                         }
                     } catch (IOException e) {
