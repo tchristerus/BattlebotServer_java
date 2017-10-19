@@ -25,21 +25,25 @@ public class Battlebot {
     }
 
     public void openConnection(){
-//        UUID uuid = new UUID("00001101-0000-1000-8000-00805F9B34FB", false);
+        UUID uuid = new UUID("1", false);
 
-        UUID uuid = new UUID("d0c722b07e1511e1b0c40800200c9a66", false);
-        System.out.println("btspp://" + getRemoteDevice().getBluetoothAddress() + ":"+ uuid +";authenticate=false;encrypt=false;master=false;");
+//        UUID uuid = new UUID("00001101-0000-1000-8000-00805F9B34FB", false);
+//        System.out.println("btspp://" + getRemoteDevice().getBluetoothAddress() + ":"+ uuid +";authenticate=false;encrypt=false;master=false;");
+//        + ":"+ uuid.toString() +";authenticate=false;encrypt=false;master=false;"
         try {
             btConn = (StreamConnection) Connector.open("btspp://" + getRemoteDevice().getBluetoothAddress() + ":"+ uuid.toString() +";authenticate=false;encrypt=false;master=false;");
             System.out.println("Connection established with bot: " + remoteDevice.getFriendlyName(false));
 
             is = btConn.openDataInputStream();
             Thread listener = new Thread(() -> {
-                int line;
+                String line;
                 try {
                     // Stop here and doesn't progress
-                    while ((line = is.readInt()) != -1) {
-                        socketManager.sendToAllClients("data_received", line);
+                    while ((line = is.readLine()) != null) {
+                        if(!line.isEmpty()) {
+                            socketManager.sendToAllClients("data_received", line);
+                            System.out.println(line);
+                        }
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

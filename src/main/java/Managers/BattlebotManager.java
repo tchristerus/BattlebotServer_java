@@ -14,8 +14,8 @@ public class BattlebotManager {
     private ObservableList<Battlebot> battlebots = FXCollections.observableList(new ArrayList<>());
     private SocketManager socketManager;
 
-    public BattlebotManager(SocketManager socketManager) {
-        bluetoothManager = new BluetoothManager(this);
+    public BattlebotManager(SocketManager socketManager, String btId) {
+        bluetoothManager = new BluetoothManager(this, btId);
         this.socketManager = socketManager;
 
         battlebots.addListener(new ListChangeListener<Battlebot>() {

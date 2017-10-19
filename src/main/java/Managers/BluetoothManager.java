@@ -9,9 +9,10 @@ import java.util.Vector;
 public class BluetoothManager {
     public final Vector/*<RemoteDevice>*/ devicesDiscovered = new Vector();
     public BattlebotManager battlebotManager;
-
-    public BluetoothManager(BattlebotManager battlebotManager) {
+    private String btId;
+    public BluetoothManager(BattlebotManager battlebotManager, String btId) {
         this.battlebotManager = battlebotManager;
+        this.btId = btId;
     }
 
     public void search() throws IOException, InterruptedException {
@@ -56,7 +57,7 @@ public class BluetoothManager {
                 devicesDiscovered.forEach(battlebot -> {
                     RemoteDevice device = (RemoteDevice) battlebot;
                     try {
-                        if (device.getFriendlyName(false).contains("bt")) {
+                        if (device.getFriendlyName(false).contains(this.btId)) {
                             battlebotManager.createBattlebot(device);
                         }
                     } catch (IOException e) {
