@@ -38,6 +38,12 @@ public class BattlebotManager {
         bluetoothManager.search();
     }
 
+    public void connectAll(){
+        for (Battlebot battlebot : battlebots) {
+            battlebot.openConnection();
+        }
+    }
+
     public int getTotalBots() {
         return this.battlebots.size();
     }

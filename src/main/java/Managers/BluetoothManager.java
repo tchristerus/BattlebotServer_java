@@ -64,6 +64,7 @@ public class BluetoothManager {
                     }
                 });
                 System.out.println("Total bots: " + battlebotManager.getTotalBots());
+                battlebotManager.connectAll();
             }
         }
     }

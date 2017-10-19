@@ -16,8 +16,8 @@
     $("h1").html('Connection established')
   });
 
-  socket.on('connected', function(data){
-    $("h1").html(data)
+  socket.on('data_received', function(data){
+    console.log(data);
   });
 
   socket.on('disconnect', function(data){
