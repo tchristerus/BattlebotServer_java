@@ -18,6 +18,7 @@ public class Battlebot {
     // Streams
     DataInput is = null;
     DataOutput os = null;
+    Thread listener;
 
     public Battlebot(RemoteDevice remoteDevice, SocketManager socketManager) throws IOException {
         this.remoteDevice = remoteDevice;
@@ -35,14 +36,13 @@ public class Battlebot {
             System.out.println("Connection established with bot: " + remoteDevice.getFriendlyName(false));
 
             is = btConn.openDataInputStream();
-            Thread listener = new Thread(() -> {
+             listener = new Thread(() -> {
                 String line;
                 try {
                     // Stop here and doesn't progress
                     while ((line = is.readLine()) != null) {
                         if(!line.isEmpty()) {
                             socketManager.sendToAllClients("data_received", line);
-                            System.out.println(line);
                         }
                     }
                 } catch (IOException e) {
@@ -56,6 +56,11 @@ public class Battlebot {
             e.printStackTrace();
             System.out.println(remoteDevice.getBluetoothAddress()+ "Adress");
         }
+    }
+
+    public void closeConnection() throws IOException{
+        btConn.close();
+        listener.stop();
     }
 
     public RemoteDevice getRemoteDevice() {

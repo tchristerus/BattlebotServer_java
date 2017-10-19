@@ -14,7 +14,7 @@ public class Main {
     public static SocketManager socketManager;
     public static BattlebotManager battlebotManager;
 
-    public static String botId = "bt11";
+    public static String botId = "bt";
 
     public static void main(String[] args) throws IOException, InterruptedException {
 

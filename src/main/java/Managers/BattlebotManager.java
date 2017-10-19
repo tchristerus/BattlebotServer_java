@@ -1,6 +1,9 @@
 package Managers;
 
 import Models.Battlebot;
+import com.corundumstudio.socketio.AckRequest;
+import com.corundumstudio.socketio.SocketIOClient;
+import com.corundumstudio.socketio.listener.DataListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -24,6 +27,21 @@ public class BattlebotManager {
                 // fires when new bots are added
                 battlebots.forEach(battlebot -> {
                     socketManager.sendToAllClients("botConnected", "Bot with address: " + battlebot.getRemoteDevice().getBluetoothAddress() + " connected to the server");
+                });
+            }
+        });
+
+        this.socketManager.getSocketServer().addEventListener("close", String.class, new DataListener<String>() {
+            @Override
+            public void onData(SocketIOClient socketIOClient, String s, AckRequest ackRequest) throws Exception {
+                System.out.println("Fubar");
+                battlebots.forEach(battlebot -> {
+                    try {
+                        battlebot.closeConnection();
+                        System.out.println("Closed connection");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 });
             }
         });

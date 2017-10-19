@@ -10,6 +10,7 @@ public class BluetoothManager {
     public final Vector/*<RemoteDevice>*/ devicesDiscovered = new Vector();
     public BattlebotManager battlebotManager;
     private String btId;
+
     public BluetoothManager(BattlebotManager battlebotManager, String btId) {
         this.battlebotManager = battlebotManager;
         this.btId = btId;
