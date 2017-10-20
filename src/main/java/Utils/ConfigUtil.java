@@ -22,13 +22,16 @@ public class ConfigUtil {
         ArrayList<BattlebotStruct> botsStructs = new ArrayList<>();
 
         while((strLine = br.readLine()) != null){
-            String[] parts = strLine.split("=");
 
-            // creating the bot struct and adding it to the list
-            BattlebotStruct btBotStruct = new BattlebotStruct();
-            btBotStruct.botName = parts[0];
-            btBotStruct.macAddress = parts[1];
-            botsStructs.add(btBotStruct);
+            if(strLine.charAt(0) != ';'){
+                String[] parts = strLine.split("=");
+
+                // creating the bot struct and adding it to the list
+                BattlebotStruct btBotStruct = new BattlebotStruct();
+                btBotStruct.botName = parts[0];
+                btBotStruct.macAddress = parts[1];
+                botsStructs.add(btBotStruct);
+            }
         }
 
         return botsStructs;

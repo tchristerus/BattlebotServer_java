@@ -2,6 +2,7 @@ package Models;
 
 import Managers.SocketManager;
 
+import javax.bluetooth.BluetoothConnectionException;
 import javax.bluetooth.RemoteDevice;
 import javax.bluetooth.UUID;
 import javax.microedition.io.Connector;
@@ -49,10 +50,12 @@ public class Battlebot {
                             socketManager.sendToAllClients("data_received", line);
                         }
                     }
+                }catch(BluetoothConnectionException e){
+                    System.out.println("Connection timed out to " + mac);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            });
+             });
 
             listener.start();
 
