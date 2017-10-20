@@ -21,7 +21,6 @@ public class Main {
     public static ConfigUtil configUtil;
     public static ArrayList<BattlebotStruct> battlebotStructs;
     public static String botId = "bt";
-    public static String[] btMacs = new String[]{"98D3313079F7", "98D331901B10"};//bot 17, bot11
     public static boolean searchDevices = false;
 
     public static void main(String[] args) throws IOException, InterruptedException {
@@ -38,8 +37,7 @@ public class Main {
         }
 
         for (BattlebotStruct battlebotStruct: battlebotStructs){
-            Battlebot battlebot = battlebotManager.createBattlebot(battlebotStruct.botName, battlebotStruct.macAddress);
-            battlebot.openConnection();
+            battlebotManager.createBattlebot(battlebotStruct.botName, battlebotStruct.macAddress).openConnection();
         }
     }
 }
