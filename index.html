@@ -24,4 +24,12 @@
     $("h1").html(data)
   });
 
+  function close(){
+      socket.emit("close", "");
+      console.info("Close command send...")
+  }
+  function search(){
+      socket.emit("search", "");
+      console.info("Search command send...")
+  }
 </script>

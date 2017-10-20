@@ -4,6 +4,9 @@ import Managers.SocketManager;
 import Models.Battlebot;
 import Structs.BattlebotStruct;
 import Utils.ConfigUtil;
+import com.corundumstudio.socketio.AckRequest;
+import com.corundumstudio.socketio.SocketIOClient;
+import com.corundumstudio.socketio.listener.DataListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,5 +42,15 @@ public class Main {
         for (BattlebotStruct battlebotStruct: battlebotStructs){
             battlebotManager.createBattlebot(battlebotStruct.botName, battlebotStruct.macAddress).openConnection();
         }
+
+        socketManager.getSocketServer().addEventListener("search", String.class, new DataListener<String>() {
+            @Override
+            public void onData(SocketIOClient socketIOClient, String s, AckRequest ackRequest) throws Exception {
+                System.out.println("Search command received...");
+                System.out.println("Searching..");
+                BluetoothManager bluetoothManager = new BluetoothManager(battlebotManager, "1");
+                bluetoothManager.search();
+            }
+        });
     }
 }

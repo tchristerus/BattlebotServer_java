@@ -66,4 +66,8 @@ public class BattlebotManager {
     public int getTotalBots() {
         return this.battlebots.size();
     }
+
+    public ObservableList<Battlebot> getBattlebots(){
+        return battlebots;
+    }
 }
