@@ -16,8 +16,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr mac="34DB2341DAD">
-          <td>hi</td>
+        <tr mac="80DAD343QRE">
+          <td>testBot</td>
           <td>hi</td>
           <td>hi</td>
           <td>hi</td>
@@ -29,12 +29,10 @@
 
 <script>
   var socket = io.connect('http://localhost:8080');
-  var testString = '{"speed":"300","time":"3000","mac":"34DB2341DAD","distance":"150","name":"bot17"}';
-  var testString2 = '{"speed":"300","time":"3000","mac":"80DAD343QRE","distance":"150","name":"bot17"}';
+  var testBot = '{"speed":"300","time":"3000","mac":"80DAD343QRE","distance":"150","name":"bot17"}';
 
 
-  addOrUpdateBot(testString);
-  addOrUpdateBot(testString2);
+  addOrUpdateBot(testBot);
 
   socket.on('connected', function (data) {
     $("h1").html('Connection established')
