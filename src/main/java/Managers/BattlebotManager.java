@@ -47,8 +47,8 @@ public class BattlebotManager {
         });
     }
 
-    public Battlebot createBattlebot(String btMac) throws IOException {
-        Battlebot battlebot = new Battlebot(socketManager, btMac);
+    public Battlebot createBattlebot(String friendlyName, String btMac) throws IOException {
+        Battlebot battlebot = new Battlebot(socketManager, friendlyName, btMac);
         battlebots.add(battlebot);
         return battlebot;
     }

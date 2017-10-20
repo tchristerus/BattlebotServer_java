@@ -21,7 +21,7 @@ public class Battlebot {
     DataOutput os = null;
     Thread listener;
 
-    public Battlebot(SocketManager socketManager, String mac) throws IOException {
+    public Battlebot(SocketManager socketManager, String friendlyName, String mac) throws IOException {
        // this.remoteDevice = remoteDevice;
         this.socketManager = socketManager;
         this.mac = mac;
