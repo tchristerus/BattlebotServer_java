@@ -1,6 +1,7 @@
 package Models;
 
 import Managers.SocketManager;
+import org.json.JSONObject;
 
 import javax.bluetooth.BluetoothConnectionException;
 import javax.bluetooth.RemoteDevice;
@@ -10,13 +11,15 @@ import javax.microedition.io.StreamConnection;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Battlebot {
     private RemoteDevice remoteDevice;
     private StreamConnection btConn;
     private SocketManager socketManager;
     private String mac;
-
+    private String friendlyName;
+    private ArrayList<String> parts = new ArrayList<>();
     // Streams
     DataInput is = null;
     DataOutput os = null;
@@ -26,6 +29,7 @@ public class Battlebot {
        // this.remoteDevice = remoteDevice;
         this.socketManager = socketManager;
         this.mac = mac;
+        this.friendlyName = friendlyName;
     }
 
     public void openConnection(){
@@ -38,7 +42,8 @@ public class Battlebot {
         try {
             System.out.println("Connecting to " + mac + "...");
             btConn = (StreamConnection) Connector.open("btspp://" + mac + ":"+ uuid.toString() +";authenticate=false;encrypt=false;master=false;");
-            System.out.println("Connection established with bot: " + mac + " nu zijn Yaron en Thomas blij :)");
+            System.out.println("Connection established with bot: " + mac);
+
 
             is = btConn.openDataInputStream();
              listener = new Thread(() -> {
@@ -46,11 +51,20 @@ public class Battlebot {
                 try {
                     // Stop here and doesn't progress
                     while ((line = is.readLine()) != null) {
-                        // TODO split line into array because the bot sends it like ...&...&...
                         // TODO create an new json from the splitted array above and add the bt mac address. JSON library already in maven.
                         if(!line.isEmpty()) {
-                            socketManager.sendToAllClients("data_received", line);
+//                            socketManager.sendToAllClients("data_received", line);
                             //TODO sent to json
+                            String[] items = line.split("&");
+
+                            JSONObject json = new JSONObject();
+                            json.put("Name", friendlyName);
+                            json.put("Mac", mac);
+                            json.put("Speed", items[0]);
+                            json.put("Distance", items[1]);
+                            json.put("Time", items[2]);
+
+                            socketManager.sendToAllClients("data_received", json.toString());
                         }
                     }
                 }catch(BluetoothConnectionException e){
