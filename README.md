@@ -3,10 +3,8 @@
 https://github.com/socketio/socket.io-client-java
 
 https://icyrock.com/blog/2012/11/developing-bluetooth-enabled-apps-with-java/
-
 https://github.com/mrniko/netty-socketio/wiki/Configuration-details
-
-
+https://www.mkyong.com/java/json-simple-example-read-and-write-json/
 ##Uitleg
 
 De ontvanger moet de naam "bot"+{getal} in zijn naam hebben staan: *bot20*

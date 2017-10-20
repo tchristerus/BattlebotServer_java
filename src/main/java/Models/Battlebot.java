@@ -46,8 +46,11 @@ public class Battlebot {
                 try {
                     // Stop here and doesn't progress
                     while ((line = is.readLine()) != null) {
+                        // TODO split line into array because the bot sends it like ...&...&...
+                        // TODO create an new json from the splitted array above and add the bt mac address. JSON library already in maven.
                         if(!line.isEmpty()) {
                             socketManager.sendToAllClients("data_received", line);
+                            //TODO sent to json
                         }
                     }
                 }catch(BluetoothConnectionException e){
