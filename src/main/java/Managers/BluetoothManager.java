@@ -27,11 +27,11 @@ public class BluetoothManager {
             public void deviceDiscovered(RemoteDevice btDevice, DeviceClass cod) {
                 System.out.println("Device " + btDevice.getBluetoothAddress() + " found");
                 devicesDiscovered.addElement(btDevice);
-                try {
-                    RemoteDeviceHelper.authenticate(btDevice, "1234");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    RemoteDeviceHelper.authenticate(btDevice, "1234");
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
                 try {
                     System.out.println("     name " + btDevice.getFriendlyName(false));
                 } catch (IOException cantGetDeviceName) {
@@ -59,14 +59,14 @@ public class BluetoothManager {
                     RemoteDevice device = (RemoteDevice) battlebot;
                     try {
                         if (device.getFriendlyName(false).contains(this.btId)) {
-                            battlebotManager.createBattlebot(device);
+                            //battlebotManager.createBattlebot(device);
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 });
                 System.out.println("Total bots: " + battlebotManager.getTotalBots());
-                battlebotManager.connectAll();
+//                battlebotManager.connectAll();
             }
         }
     }

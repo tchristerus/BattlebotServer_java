@@ -26,7 +26,7 @@ public class BattlebotManager {
             public void onChanged(Change<? extends Battlebot> c) {
                 // fires when new bots are added
                 battlebots.forEach(battlebot -> {
-                    socketManager.sendToAllClients("botConnected", "Bot with address: " + battlebot.getRemoteDevice().getBluetoothAddress() + " connected to the server");
+                    socketManager.sendToAllClients("botConnected", "Bot with address: " + battlebot.getMac() + " connected to the server");
                 });
             }
         });
@@ -47,9 +47,10 @@ public class BattlebotManager {
         });
     }
 
-    public void createBattlebot(RemoteDevice remoteDevice) throws IOException {
-        Battlebot battlebot = new Battlebot(remoteDevice, socketManager);
+    public Battlebot createBattlebot(String btMac) throws IOException {
+        Battlebot battlebot = new Battlebot(socketManager, btMac);
         battlebots.add(battlebot);
+        return battlebot;
     }
 
     public void searchBots() throws IOException, InterruptedException {

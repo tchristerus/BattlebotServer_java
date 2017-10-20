@@ -14,15 +14,17 @@ public class Battlebot {
     private RemoteDevice remoteDevice;
     private StreamConnection btConn;
     private SocketManager socketManager;
+    private String mac;
 
     // Streams
     DataInput is = null;
     DataOutput os = null;
     Thread listener;
 
-    public Battlebot(RemoteDevice remoteDevice, SocketManager socketManager) throws IOException {
-        this.remoteDevice = remoteDevice;
+    public Battlebot(SocketManager socketManager, String mac) throws IOException {
+       // this.remoteDevice = remoteDevice;
         this.socketManager = socketManager;
+        this.mac = mac;
     }
 
     public void openConnection(){
@@ -31,9 +33,11 @@ public class Battlebot {
 //        UUID uuid = new UUID("00001101-0000-1000-8000-00805F9B34FB", false);
 //        System.out.println("btspp://" + getRemoteDevice().getBluetoothAddress() + ":"+ uuid +";authenticate=false;encrypt=false;master=false;");
 //        + ":"+ uuid.toString() +";authenticate=false;encrypt=false;master=false;"
+        //98D3313079F7
         try {
-            btConn = (StreamConnection) Connector.open("btspp://" + getRemoteDevice().getBluetoothAddress() + ":"+ uuid.toString() +";authenticate=false;encrypt=false;master=false;");
-            System.out.println("Connection established with bot: " + remoteDevice.getFriendlyName(false));
+            System.out.println("Connecting to " + mac + "...");
+            btConn = (StreamConnection) Connector.open("btspp://" + mac + ":"+ uuid.toString() +";authenticate=false;encrypt=false;master=false;");
+            System.out.println("Connection established with bot: " + mac + " nu zijn Yaron en Thomas blij :)");
 
             is = btConn.openDataInputStream();
              listener = new Thread(() -> {
@@ -63,6 +67,9 @@ public class Battlebot {
         listener.stop();
     }
 
+    public String getMac(){
+        return this.mac;
+    }
     public RemoteDevice getRemoteDevice() {
         return remoteDevice;
     }
