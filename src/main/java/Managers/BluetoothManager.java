@@ -37,7 +37,6 @@ public class BluetoothManager {
 //                } catch (IOException e) {
 //                    e.printStackTrace();
 //                }
-
             }
 
             public void inquiryCompleted(int discType) {

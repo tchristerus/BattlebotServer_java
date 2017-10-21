@@ -34,7 +34,6 @@ public class BattlebotManager {
         this.socketManager.getSocketServer().addEventListener("close", String.class, new DataListener<String>() {
             @Override
             public void onData(SocketIOClient socketIOClient, String s, AckRequest ackRequest) throws Exception {
-                System.out.println("Fubar");
                 battlebots.forEach(battlebot -> {
                     try {
                         battlebot.closeConnection();
@@ -57,7 +56,7 @@ public class BattlebotManager {
         bluetoothManager.search();
     }
 
-    public void connectAll(){
+    public void connectAll() throws IOException {
         for (Battlebot battlebot : battlebots) {
             battlebot.openConnection();
         }
