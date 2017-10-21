@@ -5,17 +5,41 @@
   </head>
   <body>
     <h1>Connecting..</h1>
+
+    <table id="table_bots" border="1">
+      <thead>
+        <tr>
+          <td>Bot</td>
+          <td>Speed</td>
+          <td>Distance</td>
+          <td>Driving time</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr mac="80DAD343QRE">
+          <td>testBot</td>
+          <td>hi</td>
+          <td>hi</td>
+          <td>hi</td>
+        </tr>
+      </tbody>
+    </table>
   </body>
 </html>
 
 <script>
   var socket = io.connect('http://localhost:8080');
+  var testBot = '{"speed":"300","time":"3000","mac":"80DAD343QRE","distance":"150","name":"bot17"}';
+
+
+  addOrUpdateBot(testBot);
+
   socket.on('connected', function (data) {
     $("h1").html('Connection established')
   });
 
-  socket.on('data_received', function(data){
-    console.log(data);
+  socket.on('update_bot', function(data){
+    addOrUpdateBot(data);
   });
 
   socket.on('disconnect', function(data){
@@ -26,8 +50,30 @@
       socket.emit("close", "");
       console.info("Close command send...")
   }
+
   function search(){
       socket.emit("search", "");
       console.info("Search command send...")
+  }
+
+  function addOrUpdateBot(jsonString){
+    var jsonobj = $.parseJSON(jsonString)
+    var alreadyExist = false;
+
+    // Searching for existing row with this mac
+    $('#table_bots > tbody  > tr').each(function() {
+      if($(this).attr("mac") == jsonobj.mac){
+          $(this).find("td").eq(1).html(jsonobj.speed);
+          $(this).find("td").eq(2).html(jsonobj.distance);
+          $(this).find("td").eq(3).html(jsonobj.time);
+          alreadyExist = true;;
+      }
+    });
+
+    // Bot did not yet exist... creating new row
+    if(!alreadyExist){
+      console.info('<tr mac="' + jsonobj.mac + '"><td>' + jsonobj.name + '</td><td>' + jsonobj.speed + '</td><td>' + jsonobj.distance + '</td><td>' + jsonobj.time + '</td></tr>');
+      $('#table_bots > tbody  > tr').after('<tr mac="' + jsonobj.mac + '"><td>' + jsonobj.name + '</td><td>' + jsonobj.speed + '</td><td>' + jsonobj.distance + '</td><td>' + jsonobj.time + '</td></tr>');
+    }
   }
 </script>

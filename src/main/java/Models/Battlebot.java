@@ -57,13 +57,13 @@ public class Battlebot {
                             String[] items = line.split("&");
 
                             JSONObject json = new JSONObject();
-                            json.put("Name", friendlyName);
-                            json.put("Mac", mac);
-                            json.put("Speed", items[0]);
-                            json.put("Distance", items[1]);
-                            json.put("Time", items[2]);
+                            json.put("name", friendlyName);
+                            json.put("mac", mac);
+                            json.put("speed", items[0]);
+                            json.put("distance", items[1]);
+                            json.put("time", items[2]);
 
-                            socketManager.sendToAllClients("data_received", json.toString());
+                            socketManager.sendToAllClients("update_bot", json.toString());
                         }
                     }
                 }catch(BluetoothConnectionException e){
