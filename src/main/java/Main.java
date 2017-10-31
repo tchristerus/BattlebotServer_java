@@ -11,6 +11,7 @@ import com.corundumstudio.socketio.listener.DataListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.bluetooth.UUID;
+import javax.xml.bind.SchemaOutputResolver;
 
 /**
  * Created by on 12/10/2017.
@@ -40,9 +41,26 @@ public class Main {
         }
 
         for (BattlebotStruct battlebotStruct: battlebotStructs){
-            battlebotManager.createBattlebot(battlebotStruct.botName, battlebotStruct.macAddress).openConnection();
+            try{
+                battlebotManager.createBattlebot(battlebotStruct.botName, battlebotStruct.macAddress).openConnection();
+
+            }catch(Exception e){
+                System.out.println("Connection failed with " + battlebotStruct.botName);
+            }
         }
 
+        socketManager.getSocketServer().addEventListener("reconnectEvent", String.class, new DataListener<String>() {
+            @Override
+            public void onData(SocketIOClient socketIOClient, String s, AckRequest ackRequest) throws Exception {
+                System.out.println("Reconnect command received for: " + s);
+                Battlebot battlebot = battlebotManager.searchByName(s);
+                if(battlebot != null){
+                    battlebot.openConnection();
+                }else{
+                    System.out.println(s + " not found");
+                }
+            }
+        });
         socketManager.getSocketServer().addEventListener("search", String.class, new DataListener<String>() {
             @Override
             public void onData(SocketIOClient socketIOClient, String s, AckRequest ackRequest) throws Exception {
@@ -52,5 +70,6 @@ public class Main {
                 bluetoothManager.search();
             }
         });
+
     }
 }

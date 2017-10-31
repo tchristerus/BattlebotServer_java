@@ -70,4 +70,13 @@ public class BattlebotManager {
     public ObservableList<Battlebot> getBattlebots(){
         return battlebots;
     }
+
+
+    public Battlebot searchByName(String name){
+        for(Battlebot battlebot: battlebots){
+            if(battlebot.getFriendlyName().equals(name))
+                return battlebot;
+        }
+        return null;
+    }
 }

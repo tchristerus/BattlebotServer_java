@@ -40,9 +40,9 @@ public class Battlebot {
 //        + ":"+ uuid.toString() +";authenticate=false;encrypt=false;master=false;"
         //98D3313079F7
         try {
-            System.out.println("Connecting to " + mac + "...");
+            System.out.println("Connecting to " + friendlyName + "...");
             btConn = (StreamConnection) Connector.open("btspp://" + mac + ":"+ uuid.toString() +";authenticate=false;encrypt=false;master=false;");
-            System.out.println("Connection established with bot: " + mac);
+            System.out.println("Connection established with bot: " + friendlyName);
 
 
             is = btConn.openDataInputStream();
@@ -57,14 +57,18 @@ public class Battlebot {
                             //TODO sent to json
                             String[] items = line.split("&");
 
-                            JSONObject json = new JSONObject();
-                            json.put("name", friendlyName);
-                            json.put("mac", mac);
-                            json.put("speed", items[0]);
-                            json.put("distance", items[1]);
-                            json.put("time", items[2]);
+                            if(items.length == 3){
 
-                            socketManager.sendToAllClients("update_bot", json.toString());
+                                JSONObject json = new JSONObject();
+
+                                json.put("name", friendlyName);
+                                json.put("mac", mac);
+                                json.put("speed", items[0]);
+                                json.put("distance", items[1]);
+                                json.put("time", items[2]);
+
+                                socketManager.sendToAllClients("update_bot", json.toString());
+                            }
                         }
                     }
                 }catch(BluetoothConnectionException e){
@@ -90,6 +94,11 @@ public class Battlebot {
     public String getMac(){
         return this.mac;
     }
+
+    public String getFriendlyName(){
+        return friendlyName;
+    }
+
     public RemoteDevice getRemoteDevice() {
         return remoteDevice;
     }

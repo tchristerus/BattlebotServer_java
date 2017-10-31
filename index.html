@@ -13,26 +13,33 @@
           <td>Speed</td>
           <td>Distance</td>
           <td>Driving time</td>
+          <td>Reconnect</td>
         </tr>
       </thead>
       <tbody>
         <tr mac="80DAD343QRE">
-          <td>testBot</td>
-          <td>hi</td>
-          <td>hi</td>
-          <td>hi</td>
+          <!--<td>testBot</td>-->
+          <!--<td>hi</td>-->
+          <!--<td>hi</td>-->
+          <!--<td>hi</td>-->
         </tr>
       </tbody>
     </table>
+
+    <button onclick="search()">Search</button>
   </body>
 </html>
-
+<style>
+  #table_bots tr:first-child(2){
+    display:none;
+  }
+</style>
 <script>
   var socket = io.connect('http://localhost:8080');
   var testBot = '{"speed":"300","time":"3000","mac":"80DAD343QRE","distance":"150","name":"bot17"}';
 
 
-  addOrUpdateBot(testBot);
+//  addOrUpdateBot(testBot);
 
   socket.on('connected', function (data) {
     $("h1").html('Connection established')
@@ -55,6 +62,10 @@
       socket.emit("search", "");
       console.info("Search command send...")
   }
+  function reconnect(name){
+      socket.emit("reconnectEvent", name);
+      console.info("reconnect command send...")
+  }
 
   function addOrUpdateBot(jsonString){
     var jsonobj = $.parseJSON(jsonString)
@@ -73,7 +84,7 @@
     // Bot did not yet exist... creating new row
     if(!alreadyExist){
       console.info('<tr mac="' + jsonobj.mac + '"><td>' + jsonobj.name + '</td><td>' + jsonobj.speed + '</td><td>' + jsonobj.distance + '</td><td>' + jsonobj.time + '</td></tr>');
-      $('#table_bots > tbody  > tr').after('<tr mac="' + jsonobj.mac + '"><td>' + jsonobj.name + '</td><td>' + jsonobj.speed + '</td><td>' + jsonobj.distance + '</td><td>' + jsonobj.time + '</td></tr>');
+      $('#table_bots > tbody  > tr').after('<tr mac="' + jsonobj.mac + '"><td>' + jsonobj.name + '</td><td>' + jsonobj.speed + '</td><td>' + jsonobj.distance + '</td><td>' + jsonobj.time + '</td><td>    <button onclick="reconnect(\''+ jsonobj.name +'\')">reconnect</button>\n</td></tr>');
     }
   }
 </script>
