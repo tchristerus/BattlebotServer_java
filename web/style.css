@@ -1,0 +1,33 @@
+.col-md-12{
+    padding:0;
+}
+
+input, button{
+    -webkit-border-radius: 0px!important;
+    -moz-border-radius: 0px!important;
+    border-radius: 0px!important;
+    border:0px;
+    outline: none;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none!important;
+}
+
+.console{
+    background-color: #222222;
+    margin-top:100px;
+    height:300px;
+    overflow-y: hidden;
+    overflow-x:hidden;
+    font-family:monospace;
+    padding: 5px;
+}
+
+.console td{
+    padding: 5px;
+    color: limegreen;
+}
