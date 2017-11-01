@@ -18,9 +18,11 @@ De ontvanger moet de naam "bot"+{getal} in zijn naam hebben staan: *bot20*
 
 ##config.txt 
 
-Om een mac adres uit te schakelen gebruik ";"
+Om een mac adres uit te schakelen gebruik "#"
 
 ```
-;bot17=98D3313079F7 // uit
+#bot17=98D3313079F7 // uit
 bot17=98D3313079F7 // aan
 ```
+
+## Websocket ip aanpassen naar het serverip

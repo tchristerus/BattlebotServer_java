@@ -21,9 +21,9 @@ public class ConfigUtil {
         String strLine;
         ArrayList<BattlebotStruct> botsStructs = new ArrayList<>();
 
-        while((strLine = br.readLine()) != null){
+        while ((strLine = br.readLine()) != null) {
 
-            if(strLine.charAt(0) != ';'){
+            if (strLine.charAt(0) != '#') {
                 String[] parts = strLine.split("=");
 
                 // creating the bot struct and adding it to the list

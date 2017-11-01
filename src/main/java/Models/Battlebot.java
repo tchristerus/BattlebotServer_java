@@ -26,38 +26,31 @@ public class Battlebot {
     Thread listener;
 
     public Battlebot(SocketManager socketManager, String friendlyName, String mac) throws IOException {
-       // this.remoteDevice = remoteDevice;
+        // this.remoteDevice = remoteDevice;
         this.socketManager = socketManager;
         this.mac = mac;
         this.friendlyName = friendlyName;
     }
 
-    public void openConnection(){
+    public void openConnection() {
         UUID uuid = new UUID("1", false);
 
-//        UUID uuid = new UUID("00001101-0000-1000-8000-00805F9B34FB", false);
-//        System.out.println("btspp://" + getRemoteDevice().getBluetoothAddress() + ":"+ uuid +";authenticate=false;encrypt=false;master=false;");
-//        + ":"+ uuid.toString() +";authenticate=false;encrypt=false;master=false;"
-        //98D3313079F7
         try {
             System.out.println("Connecting to " + friendlyName + "...");
-            btConn = (StreamConnection) Connector.open("btspp://" + mac + ":"+ uuid.toString() +";authenticate=false;encrypt=false;master=false;");
+            btConn = (StreamConnection) Connector.open("btspp://" + mac + ":" + uuid.toString() + ";authenticate=false;encrypt=false;master=false;");
             System.out.println("Connection established with bot: " + friendlyName);
 
 
             is = btConn.openDataInputStream();
-             listener = new Thread(() -> {
+            listener = new Thread(() -> {
                 String line;
                 try {
                     // Stop here and doesn't progress
                     while ((line = is.readLine()) != null) {
-                        // TODO create an new json from the splitted array above and add the bt mac address. JSON library already in maven.
-                        if(!line.isEmpty()) {
-//                            socketManager.sendToAllClients("data_received", line);
-                            //TODO sent to json
+                        if (!line.isEmpty()) {
                             String[] items = line.split("&");
 
-                            if(items.length == 3){
+                            if (items.length == 3) {
 
                                 JSONObject json = new JSONObject();
 
@@ -71,31 +64,36 @@ public class Battlebot {
                             }
                         }
                     }
-                }catch(BluetoothConnectionException e){
+                } catch (BluetoothConnectionException e) {
                     System.out.println("Connection timed out to " + mac);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-             });
+            });
 
             listener.start();
 
+        } catch (BluetoothConnectionException e) {
+            System.out.println("Failed to connect to: " + friendlyName);
+            JSONObject json = new JSONObject();
+            json.put("mac", mac);
+
+            socketManager.sendToAllClients("connection_failed", json.toString());
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println(remoteDevice.getBluetoothAddress()+ "Adress");
         }
     }
 
-    public void closeConnection() throws IOException{
+    public void closeConnection() throws IOException {
         btConn.close();
         listener.stop();
     }
 
-    public String getMac(){
+    public String getMac() {
         return this.mac;
     }
 
-    public String getFriendlyName(){
+    public String getFriendlyName() {
         return friendlyName;
     }
 

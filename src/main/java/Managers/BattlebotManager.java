@@ -1,14 +1,10 @@
 package Managers;
 
 import Models.Battlebot;
-import com.corundumstudio.socketio.AckRequest;
-import com.corundumstudio.socketio.SocketIOClient;
-import com.corundumstudio.socketio.listener.DataListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
-import javax.bluetooth.RemoteDevice;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -31,23 +27,14 @@ public class BattlebotManager {
             }
         });
 
-        this.socketManager.getSocketServer().addEventListener("close", String.class, new DataListener<String>() {
-            @Override
-            public void onData(SocketIOClient socketIOClient, String s, AckRequest ackRequest) throws Exception {
-                System.out.println("Fubar");
-                battlebots.forEach(battlebot -> {
-                    try {
-                        battlebot.closeConnection();
-                        System.out.println("Closed connection");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                });
-            }
-        });
     }
 
-    public Battlebot createBattlebot(String friendlyName, String btMac) throws IOException {
+    public Battlebot createOrGetBattlebot(String friendlyName, String btMac) throws IOException {
+        for (Battlebot battlebot : battlebots) {
+            if (battlebot.getMac() == btMac)
+                return battlebot;
+        }
+
         Battlebot battlebot = new Battlebot(socketManager, friendlyName, btMac);
         battlebots.add(battlebot);
         return battlebot;
@@ -57,7 +44,7 @@ public class BattlebotManager {
         bluetoothManager.search();
     }
 
-    public void connectAll(){
+    public void connectAll() {
         for (Battlebot battlebot : battlebots) {
             battlebot.openConnection();
         }
@@ -67,14 +54,14 @@ public class BattlebotManager {
         return this.battlebots.size();
     }
 
-    public ObservableList<Battlebot> getBattlebots(){
+    public ObservableList<Battlebot> getBattlebots() {
         return battlebots;
     }
 
 
-    public Battlebot searchByName(String name){
-        for(Battlebot battlebot: battlebots){
-            if(battlebot.getFriendlyName().equals(name))
+    public Battlebot searchByName(String name) {
+        for (Battlebot battlebot : battlebots) {
+            if (battlebot.getFriendlyName().equals(name))
                 return battlebot;
         }
         return null;

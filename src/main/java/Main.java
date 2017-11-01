@@ -10,8 +10,6 @@ import com.corundumstudio.socketio.listener.DataListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import javax.bluetooth.UUID;
-import javax.xml.bind.SchemaOutputResolver;
 
 /**
  * Created by on 12/10/2017.
@@ -35,28 +33,21 @@ public class Main {
         battlebotManager = new BattlebotManager(socketManager, botId);
         socketManager.startServer();
 
-        if(searchDevices){
+        if (searchDevices) {
             BluetoothManager bluetoothManager = new BluetoothManager(battlebotManager, "1");
             bluetoothManager.search();
         }
 
-        for (BattlebotStruct battlebotStruct: battlebotStructs){
-            try{
-                battlebotManager.createBattlebot(battlebotStruct.botName, battlebotStruct.macAddress).openConnection();
-
-            }catch(Exception e){
-                System.out.println("Connection failed with " + battlebotStruct.botName);
-            }
-        }
+        reloadConfig();
 
         socketManager.getSocketServer().addEventListener("reconnectEvent", String.class, new DataListener<String>() {
             @Override
             public void onData(SocketIOClient socketIOClient, String s, AckRequest ackRequest) throws Exception {
                 System.out.println("Reconnect command received for: " + s);
                 Battlebot battlebot = battlebotManager.searchByName(s);
-                if(battlebot != null){
+                if (battlebot != null) {
                     battlebot.openConnection();
-                }else{
+                } else {
                     System.out.println(s + " not found");
                 }
             }
@@ -71,5 +62,26 @@ public class Main {
             }
         });
 
+        socketManager.getSocketServer().addEventListener("reload_config", String.class, new DataListener<String>() {
+            @Override
+            public void onData(SocketIOClient socketIOClient, String s, AckRequest ackRequest) throws Exception {
+                System.out.println("Reload config command received...");
+                reloadConfig();
+            }
+        });
+
+    }
+
+    public static void reloadConfig() {
+        for (BattlebotStruct battlebotStruct : battlebotStructs) {
+            try {
+                Battlebot bot = battlebotManager.createOrGetBattlebot(battlebotStruct.botName, battlebotStruct.macAddress);
+                if (bot != null) {
+                    bot.openConnection();
+                }
+            } catch (Exception e) {
+                System.out.println("Connection failed with " + battlebotStruct.botName);
+            }
+        }
     }
 }

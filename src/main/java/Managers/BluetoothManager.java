@@ -1,8 +1,5 @@
 package Managers;
 
-import Models.Battlebot;
-import com.intel.bluetooth.RemoteDeviceHelper;
-
 import javax.bluetooth.*;
 import java.io.IOException;
 import java.util.Vector;
