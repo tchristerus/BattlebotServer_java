@@ -31,6 +31,7 @@ public class ConfigUtil {
                 btBotStruct.botName = parts[0];
                 btBotStruct.macAddress = parts[1];
                 botsStructs.add(btBotStruct);
+
             }
         }
 
