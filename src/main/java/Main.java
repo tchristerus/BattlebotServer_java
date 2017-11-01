@@ -4,6 +4,7 @@ import Managers.SocketManager;
 import Models.Battlebot;
 import Structs.BattlebotStruct;
 import Utils.ConfigUtil;
+import Utils.ConsoleUtil;
 import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.listener.DataListener;
@@ -24,17 +25,19 @@ public class Main {
     public static ArrayList<BattlebotStruct> battlebotStructs;
     public static String botId = "bt";
     public static boolean searchDevices = false;
+    public static ConsoleUtil consoleUtil;
 
     public static void main(String[] args) throws IOException, InterruptedException {
         configUtil = new ConfigUtil("config.txt");
         battlebotStructs = configUtil.parseConfig();
 
         socketManager = new SocketManager("localhost", 8080);
-        battlebotManager = new BattlebotManager(socketManager, botId);
+        consoleUtil = new ConsoleUtil(socketManager);
+        battlebotManager = new BattlebotManager(socketManager, botId, consoleUtil);
         socketManager.startServer();
 
         if (searchDevices) {
-            BluetoothManager bluetoothManager = new BluetoothManager(battlebotManager, "1");
+            BluetoothManager bluetoothManager = new BluetoothManager(battlebotManager, "1", consoleUtil);
             bluetoothManager.search();
         }
 
@@ -43,21 +46,21 @@ public class Main {
         socketManager.getSocketServer().addEventListener("reconnectEvent", String.class, new DataListener<String>() {
             @Override
             public void onData(SocketIOClient socketIOClient, String s, AckRequest ackRequest) throws Exception {
-                System.out.println("Reconnect command received for: " + s);
+                consoleUtil.write("Reconnect command received for: " + s);
                 Battlebot battlebot = battlebotManager.searchByName(s);
                 if (battlebot != null) {
                     battlebot.openConnection();
                 } else {
-                    System.out.println(s + " not found");
+                    consoleUtil.write(s + " not found");
                 }
             }
         });
         socketManager.getSocketServer().addEventListener("search", String.class, new DataListener<String>() {
             @Override
             public void onData(SocketIOClient socketIOClient, String s, AckRequest ackRequest) throws Exception {
-                System.out.println("Search command received...");
-                System.out.println("Searching..");
-                BluetoothManager bluetoothManager = new BluetoothManager(battlebotManager, "1");
+                consoleUtil.write("Search command received...");
+                consoleUtil.write("Searching..");
+                BluetoothManager bluetoothManager = new BluetoothManager(battlebotManager, "1", consoleUtil);
                 bluetoothManager.search();
             }
         });
@@ -65,7 +68,7 @@ public class Main {
         socketManager.getSocketServer().addEventListener("reload_config", String.class, new DataListener<String>() {
             @Override
             public void onData(SocketIOClient socketIOClient, String s, AckRequest ackRequest) throws Exception {
-                System.out.println("Reload config command received...");
+                consoleUtil.write("Reload config command received...");
                 reloadConfig();
             }
         });
@@ -80,7 +83,7 @@ public class Main {
                     bot.openConnection();
                 }
             } catch (Exception e) {
-                System.out.println("Connection failed with " + battlebotStruct.botName);
+                consoleUtil.write("Connection failed with " + battlebotStruct.botName);
             }
         }
     }

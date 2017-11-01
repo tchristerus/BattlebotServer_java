@@ -38,11 +38,35 @@
                 <div class="col-md-2">
                     <input type="button" class="btn btn-default" id="btnConnect" value="Connect bot" >
                 </div>
+            </div>
 
+            <div class="row">
+                <div class="col-md-12 console">
+                    <table id="console">
+
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    .console{
+        background-color: #222222;
+        margin-top:100px;
+        height:300px;
+        overflow-y: scroll;
+        overflow-x:hidden;
+        font-family:monospace;
+        padding: 5px;
+    }
+
+    .console td{
+        padding: 5px;
+        color: limegreen;
+    }
+</style>
 
 <script>
 
@@ -81,17 +105,21 @@
           $("h1").html(data)
     });
 
+    socket.on('console_message', function(data){
+        $('#console').append("<tr><td>> " + data + "</td></tr>")
+        $(".console").stop().animate({ scrollTop: $(".console")[0].scrollHeight}, 1000);
+    });
+
     // als verbinden failed (server kant) dan moet er een event gestuurd worden naar de client dat het niet is gelukt en de knop weer enabled moet / text updaten van de knop
 
     socket.on('connection_failed', function(data){
-        var jsonobj = $.parseJSON(data)
+        var jsonobj = $.parseJSON(data);
         $("button#" + jsonobj.mac).html("Opniew verbinden");
         $("button#" + jsonobj.mac).attr("disabled", false);
     });
 
     $(document).ready(function(){
         $("#btnConnect").click(function(){
-            console.info('karel');
             reconnect($("#connectBot").val(), null);
         });
     });

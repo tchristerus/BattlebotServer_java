@@ -1,6 +1,7 @@
 package Models;
 
 import Managers.SocketManager;
+import Utils.ConsoleUtil;
 import org.json.JSONObject;
 
 import javax.bluetooth.BluetoothConnectionException;
@@ -20,25 +21,27 @@ public class Battlebot {
     private String mac;
     private String friendlyName;
     private ArrayList<String> parts = new ArrayList<>();
+    private ConsoleUtil consoleUtil;
     // Streams
     DataInput is = null;
     DataOutput os = null;
     Thread listener;
 
-    public Battlebot(SocketManager socketManager, String friendlyName, String mac) throws IOException {
+    public Battlebot(SocketManager socketManager, String friendlyName, String mac, ConsoleUtil consoleUtil) throws IOException {
         // this.remoteDevice = remoteDevice;
         this.socketManager = socketManager;
         this.mac = mac;
         this.friendlyName = friendlyName;
+        this.consoleUtil = consoleUtil;
     }
 
     public void openConnection() {
         UUID uuid = new UUID("1", false);
 
         try {
-            System.out.println("Connecting to " + friendlyName + "...");
+            consoleUtil.write("Connecting to " + friendlyName + "...");
             btConn = (StreamConnection) Connector.open("btspp://" + mac + ":" + uuid.toString() + ";authenticate=false;encrypt=false;master=false;");
-            System.out.println("Connection established with bot: " + friendlyName);
+            consoleUtil.write("Connection established with bot: " + friendlyName);
 
 
             is = btConn.openDataInputStream();
@@ -65,7 +68,7 @@ public class Battlebot {
                         }
                     }
                 } catch (BluetoothConnectionException e) {
-                    System.out.println("Connection timed out to " + mac);
+                    consoleUtil.write("Connection timed out to " + mac);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -74,7 +77,7 @@ public class Battlebot {
             listener.start();
 
         } catch (BluetoothConnectionException e) {
-            System.out.println("Failed to connect to: " + friendlyName);
+            consoleUtil.write("Failed to connect to: " + friendlyName);
             JSONObject json = new JSONObject();
             json.put("mac", mac);
 

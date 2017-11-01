@@ -1,5 +1,7 @@
 package Managers;
 
+import Utils.ConsoleUtil;
+
 import javax.bluetooth.*;
 import java.io.IOException;
 import java.util.Vector;
@@ -8,10 +10,12 @@ public class BluetoothManager {
     public final Vector/*<RemoteDevice>*/ devicesDiscovered = new Vector();
     public BattlebotManager battlebotManager;
     private String btId;
+    private ConsoleUtil consoleUtil;
 
-    public BluetoothManager(BattlebotManager battlebotManager, String btId) {
+    public BluetoothManager(BattlebotManager battlebotManager, String btId, ConsoleUtil consoleUtil) {
         this.battlebotManager = battlebotManager;
         this.btId = btId;
+        this.consoleUtil = consoleUtil;
     }
 
     public void search() throws IOException, InterruptedException {
@@ -28,7 +32,7 @@ public class BluetoothManager {
                     System.out.print(btDevice.getFriendlyName(false));
                 } catch (IOException cantGetDeviceName) {
                 }
-                System.out.println("=" + btDevice.getBluetoothAddress());
+                consoleUtil.write("=" + btDevice.getBluetoothAddress());
                 devicesDiscovered.addElement(btDevice);
 //                try {
 //                    RemoteDeviceHelper.authenticate(btDevice, "1234");
@@ -39,7 +43,7 @@ public class BluetoothManager {
             }
 
             public void inquiryCompleted(int discType) {
-                System.out.println("Device Inquiry completed!");
+                consoleUtil.write("Device Inquiry completed!");
                 synchronized (inquiryCompletedEvent) {
                     inquiryCompletedEvent.notifyAll();
                 }

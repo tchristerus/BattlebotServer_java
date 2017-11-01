@@ -1,6 +1,7 @@
 package Managers;
 
 import Models.Battlebot;
+import Utils.ConsoleUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -12,9 +13,11 @@ public class BattlebotManager {
     private BluetoothManager bluetoothManager;
     private ObservableList<Battlebot> battlebots = FXCollections.observableList(new ArrayList<>());
     private SocketManager socketManager;
+    private ConsoleUtil consoleUtil;
 
-    public BattlebotManager(SocketManager socketManager, String btId) {
-        bluetoothManager = new BluetoothManager(this, btId);
+    public BattlebotManager(SocketManager socketManager, String btId, ConsoleUtil consoleUtil) {
+        bluetoothManager = new BluetoothManager(this, btId,consoleUtil);
+        this.consoleUtil = consoleUtil;
         this.socketManager = socketManager;
 
         battlebots.addListener(new ListChangeListener<Battlebot>() {
@@ -35,7 +38,7 @@ public class BattlebotManager {
                 return battlebot;
         }
 
-        Battlebot battlebot = new Battlebot(socketManager, friendlyName, btMac);
+        Battlebot battlebot = new Battlebot(socketManager, friendlyName, btMac, consoleUtil);
         battlebots.add(battlebot);
         return battlebot;
     }
