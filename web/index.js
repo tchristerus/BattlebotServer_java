@@ -21,6 +21,7 @@ function timeoutTimer(){
     }
 };
 
+
 setInterval(timeoutTimer, 1000);
 socket.on('connected', function (data) {
     $("h1").html('Connection established')
