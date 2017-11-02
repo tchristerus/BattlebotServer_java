@@ -5,6 +5,9 @@ var latestUpdate = new Array();
 //  addOrUpdateBot(testBot);
 
 function timeoutTimer(){
+
+    socket.emit("uptime", "");
+
     for (var i in latestUpdate){
         if (typeof latestUpdate[i] !== 'function') {
             if(Date.now() - latestUpdate[i] > 5000){
@@ -29,6 +32,10 @@ socket.on('connected', function (data) {
 
 socket.on('update_bot', function(data){
     addOrUpdateBot(data);
+});
+
+socket.on('uptime', function(data){
+    $("#time").html("Server uptime: " + data)
 });
 
 socket.on('disconnect', function(data){

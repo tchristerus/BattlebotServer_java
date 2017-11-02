@@ -37,16 +37,16 @@ public class Battlebot {
 
     public void openConnection() {
         listener = new Thread(() -> {
-        UUID uuid = new UUID("1", false);
+            UUID uuid = new UUID("1", false);
 
-        try {
-            consoleUtil.write("Connecting to " + friendlyName + "...");
-            btConn = (StreamConnection) Connector.open("btspp://" + mac + ":" + uuid.toString() + ";authenticate=false;encrypt=false;master=false;");
-            consoleUtil.write("Connection established with bot: " + friendlyName);
+            try {
+                consoleUtil.write("Connecting to " + friendlyName + "...");
+                btConn = (StreamConnection) Connector.open("btspp://" + mac + ":" + uuid.toString() + ";authenticate=false;encrypt=false;master=false;");
+                consoleUtil.write("Connection established with bot: " + friendlyName);
 
 
-            is = btConn.openDataInputStream();
-
+                is = btConn.openDataInputStream();
+                os = btConn.openDataOutputStream();
                 String line;
                 try {
                     // Stop here and doesn't progress
@@ -73,19 +73,15 @@ public class Battlebot {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            } catch (BluetoothConnectionException e) {
+                consoleUtil.write("Failed to connect to: " + friendlyName + "\nError:\n" + e);
+                JSONObject json = new JSONObject();
+                json.put("mac", mac);
 
-
-
-
-        } catch (BluetoothConnectionException e) {
-            consoleUtil.write("Failed to connect to: " + friendlyName + "\nError:\n"+e);
-            JSONObject json = new JSONObject();
-            json.put("mac", mac);
-
-            socketManager.sendToAllClients("connection_failed", json.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+                socketManager.sendToAllClients("connection_failed", json.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
         listener.start();
     }
@@ -93,6 +89,20 @@ public class Battlebot {
     public void closeConnection() throws IOException {
         btConn.close();
         listener.stop();
+    }
+
+    public void sendMessage(String message){
+        consoleUtil.write("Sending message: " + message);
+        try {
+
+
+            os.writeUTF(message);
+        } catch (IOException e) {
+            e.printStackTrace();
+            consoleUtil.write(e.getMessage());
+        }
+
+
     }
 
     public String getMac() {

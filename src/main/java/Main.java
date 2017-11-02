@@ -8,8 +8,11 @@ import Utils.ConsoleUtil;
 import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.listener.DataListener;
+import org.json.JSONObject;
 
 import java.io.IOException;
+import java.lang.management.ManagementFactory;
+import java.lang.management.RuntimeMXBean;
 import java.util.ArrayList;
 
 /**
@@ -70,6 +73,37 @@ public class Main {
             public void onData(SocketIOClient socketIOClient, String s, AckRequest ackRequest) throws Exception {
                 consoleUtil.write("Reload config command received...");
                 reloadConfig();
+            }
+        });
+
+        socketManager.getSocketServer().addEventListener("uptime", String.class, new DataListener<String>() {
+            @Override
+            public void onData(SocketIOClient socketIOClient, String s, AckRequest ackRequest) throws Exception {
+                RuntimeMXBean rb = ManagementFactory.getRuntimeMXBean();
+                long uptime = rb.getUptime();
+
+                int seconds = (int) (uptime / 1000) % 60 ;
+                int minutes = (int) ((uptime / (1000*60)) % 60);
+                int hours   = (int) ((uptime / (1000*60*60)) % 24);
+
+                String time = hours + ":" + minutes + ":" + seconds;
+                socketManager.sendToAllClients("uptime", time);
+            }
+        });
+
+        socketManager.getSocketServer().addEventListener("send", String.class, new DataListener<String>() {
+            @Override
+            public void onData(SocketIOClient socketIOClient, String s, AckRequest ackRequest) throws Exception {
+                consoleUtil.write("Data send command received..." + s);
+                JSONObject jsonObject = new JSONObject(s);
+                String message = jsonObject.getString("message");
+                Battlebot battlebot = battlebotManager.searchByName(jsonObject.getString("bot"));
+                if (battlebot != null) {
+                    consoleUtil.write("Found " + battlebot.getFriendlyName() + ". Sending message: " + message);
+                    battlebot.sendMessage(jsonObject.getString("message"));
+                } else {
+                    consoleUtil.write("bot not found");
+                }
             }
         });
 
