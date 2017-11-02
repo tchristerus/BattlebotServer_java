@@ -1,5 +1,5 @@
 
-var socket = io.connect('http://localhost:8080');
+var socket = io.connect('http://localhost:6969');
 var testBot = '{"speed":"300","time":"3000","mac":"80DAD343QRE","distance":"150","name":"bot17"}';
 var latestUpdate = new Array();
 //  addOrUpdateBot(testBot);

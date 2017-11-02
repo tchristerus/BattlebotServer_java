@@ -36,6 +36,7 @@ public class Battlebot {
     }
 
     public void openConnection() {
+        listener = new Thread(() -> {
         UUID uuid = new UUID("1", false);
 
         try {
@@ -45,7 +46,7 @@ public class Battlebot {
 
 
             is = btConn.openDataInputStream();
-            listener = new Thread(() -> {
+
                 String line;
                 try {
                     // Stop here and doesn't progress
@@ -72,12 +73,12 @@ public class Battlebot {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            });
 
-            listener.start();
+
+
 
         } catch (BluetoothConnectionException e) {
-            consoleUtil.write("Failed to connect to: " + friendlyName);
+            consoleUtil.write("Failed to connect to: " + friendlyName + "\nError:\n"+e);
             JSONObject json = new JSONObject();
             json.put("mac", mac);
 
@@ -85,6 +86,8 @@ public class Battlebot {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        });
+        listener.start();
     }
 
     public void closeConnection() throws IOException {

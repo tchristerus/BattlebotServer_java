@@ -24,7 +24,7 @@ button:focus {
 .console{
     background-color: #222222;
     margin-top:100px;
-    height:300px;
+    height:400px;
     overflow-y: hidden;
     overflow-x:hidden;
     font-family:monospace;
