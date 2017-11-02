@@ -96,11 +96,10 @@ public class Main {
             public void onData(SocketIOClient socketIOClient, String s, AckRequest ackRequest) throws Exception {
                 consoleUtil.write("Data send command received..." + s);
                 JSONObject jsonObject = new JSONObject(s);
-                String message = jsonObject.getString("message");
+                int message = jsonObject.getInt("message");
                 Battlebot battlebot = battlebotManager.searchByName(jsonObject.getString("bot"));
                 if (battlebot != null) {
-                    consoleUtil.write("Found " + battlebot.getFriendlyName() + ". Sending message: " + message);
-                    battlebot.sendMessage(jsonObject.getString("message"));
+                    battlebot.sendMessage(message);
                 } else {
                     consoleUtil.write("bot not found");
                 }

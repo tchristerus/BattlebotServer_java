@@ -91,12 +91,11 @@ public class Battlebot {
         listener.stop();
     }
 
-    public void sendMessage(String message){
-        consoleUtil.write("Sending message: " + message);
+    public void sendMessage(int message){
+
         try {
-
-
-            os.writeUTF(message);
+            consoleUtil.write("Sending message: " + message);
+            os.writeInt(message);
         } catch (IOException e) {
             e.printStackTrace();
             consoleUtil.write(e.getMessage());

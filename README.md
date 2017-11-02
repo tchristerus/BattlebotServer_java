@@ -26,3 +26,6 @@ bot17=98D3313079F7 // aan
 ```
 
 ## Websocket ip aanpassen naar het serverip
+
+##socket send
+socket.emit('send',"{bot: bot17, message: f}");

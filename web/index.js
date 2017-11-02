@@ -47,6 +47,11 @@ socket.on('console_message', function(data){
     $(".console").stop().animate({ scrollTop: $(".console")[0].scrollHeight}, 1000);
 });
 
+
+
+function sendCharToBot(botname, char){
+    socket.emit("send", "{bot: " + botname + ", message: " + char + "}")
+}
 // als verbinden failed (server kant) dan moet er een event gestuurd worden naar de client dat het niet is gelukt en de knop weer enabled moet / text updaten van de knop
 
 socket.on('connection_failed', function(data){
@@ -60,6 +65,17 @@ $(document).ready(function(){
         reconnect($("#connectBot").val(), null);
     });
 });
+
+addControlerButton("btn_forward", 1);
+
+function addControlerButton(id, action){
+    $("#" + id).mousedown(function () {
+        sendCharToBot($("#botNameField").val(),action);
+    });
+    $("#" + id).mouseup(function () {
+        sendCharToBot($("#botNameField").val(),5);
+    })
+}
 
 function close(){
     socket.emit("close", "");
