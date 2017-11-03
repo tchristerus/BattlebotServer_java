@@ -34,7 +34,7 @@ public class Main {
         configUtil = new ConfigUtil("config.txt");
         battlebotStructs = configUtil.parseConfig();
 
-        socketManager = new SocketManager("localhost", 6969);
+        socketManager = new SocketManager("10.110.111.223", 6969);
         consoleUtil = new ConsoleUtil(socketManager);
         battlebotManager = new BattlebotManager(socketManager, botId, consoleUtil);
         socketManager.startServer();
