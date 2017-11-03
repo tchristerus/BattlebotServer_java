@@ -2,6 +2,7 @@
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="controller.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
@@ -46,18 +47,54 @@
                     </div>
                 </div>
 
-                <button class="btn btn-secondary" id="btn_forward" type="button">Forward</button>
+                <div id="controller">
+                    <input id="botNameField" type="text" value="">
+
+                    <div class="section">
+                    <button id="left">
+
+                    </button>
+                    <button id="up">
+
+                    </button>
+                    <button id="right">
+
+                    </button>
+                    <button id="down">
+
+                    </button>
+                </div>
+                <div class="section">
+                    <button id="select">
+                        Select
+                    </button>
+                    <button id="start">
+                        Start
+                    </button>
+                </div>
+                <div class="section">
+                    <button id="square">
+                        |_|
+                    </button>
+                    <button id="triangle">
+                        /\
+                    </button>
+                    <button id="circle">
+                        O
+                    </button>
+                    <button id="cross">
+                        X
+                    </button>
+                </div>
+
+
 
             </div>
         </div>
     </div>
 </div>
 
-<footer class="footer">
-    <div class="container">
-        <span class="text-muted">Production from Thomas, Yaron & Myrren </span>
-    </div>
-</footer>
+
 
 
 <script src="index.js"></script>
