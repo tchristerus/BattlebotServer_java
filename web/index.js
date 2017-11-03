@@ -65,7 +65,7 @@ $(document).ready(function(){
     addControlerButton("up", 1, 38);
     addControlerButton("right", 2, 39);
     addControlerButton("down", 3, 40);
-    addControlerButton("left", 1, 37);
+    addControlerButton("left", 4, 37);
 
     function addControlerButton(id, action, keyboardKey){
         $("#" + id).mousedown(function () {
