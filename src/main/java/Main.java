@@ -103,7 +103,7 @@ public class Main {
         socketManager.getSocketServer().addEventListener("send", String.class, new DataListener<String>() {
             @Override
             public void onData(SocketIOClient socketIOClient, String s, AckRequest ackRequest) throws Exception {
-                consoleUtil.write("Data send command received..." + s);
+//                consoleUtil.write("Data send command received..." + s);
                 JSONObject jsonObject = new JSONObject(s);
                 int message = jsonObject.getInt("message");
                 Battlebot battlebot = battlebotManager.searchByName(jsonObject.getString("bot"));

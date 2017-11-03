@@ -94,7 +94,7 @@ public class Battlebot {
     public void sendMessage(int message){
 
         try {
-            consoleUtil.write("Sending message: " + message);
+//            consoleUtil.write("Sending message: " + message);
             os.writeInt(message);
         } catch (IOException e) {
             e.printStackTrace();
