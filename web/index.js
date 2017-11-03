@@ -1,6 +1,4 @@
-
-var socket = io.connect('http://localhost:6969');
-var testBot = '{"speed":"300","time":"3000","mac":"80DAD343QRE","distance":"150","name":"bot17"}';
+var socket = io.connect('http://battlebot.serverict.nl:6969');
 var latestUpdate = new Array();
 //  addOrUpdateBot(testBot);
 
@@ -64,18 +62,34 @@ $(document).ready(function(){
     $("#btnConnect").click(function(){
         reconnect($("#connectBot").val(), null);
     });
+    addControlerButton("up", 1, 38);
+    addControlerButton("right", 2, 39);
+    addControlerButton("down", 3, 40);
+    addControlerButton("left", 1, 37);
+
+    function addControlerButton(id, action, keyboardKey){
+        $("#" + id).mousedown(function () {
+            sendCharToBot($("#botNameField").val(),action);
+        });
+
+        $("#" + id).mouseup(function () {
+            sendCharToBot($("#botNameField").val(),5);
+        });
+    }
+
 });
 
-addControlerButton("btn_forward", 1);
+$("body").keydown(function (data) {
+    switch(data.which){
+        case 38:
+            sendCharToBot($("#botNameField").val(),action);
+            break;
+    }
+});
+$("body").keyup(function (data) {
+    sendCharToBot($("#botNameField").val(),5);
+});
 
-function addControlerButton(id, action){
-    $("#" + id).mousedown(function () {
-        sendCharToBot($("#botNameField").val(),action);
-    });
-    $("#" + id).mouseup(function () {
-        sendCharToBot($("#botNameField").val(),5);
-    })
-}
 
 function close(){
     socket.emit("close", "");
