@@ -9,7 +9,9 @@ import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.listener.DataListener;
 import org.json.JSONObject;
+import sun.security.krb5.Config;
 
+import java.io.Console;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
@@ -34,7 +36,14 @@ public class Main {
         configUtil = new ConfigUtil("config.txt");
         battlebotStructs = configUtil.parseConfig();
 
-        socketManager = new SocketManager("194.171.181.139", 6969);
+        String host = "localhost";
+        ConfigUtil serverInfo = new ConfigUtil("server.txt");
+        try {
+            host = serverInfo.getHostAddress();
+        }catch(Exception e){
+            System.out.println("Unable to parse config serverinfo, falling back to localhost");
+        }
+        socketManager = new SocketManager(host, 6969);
         consoleUtil = new ConsoleUtil(socketManager);
         battlebotManager = new BattlebotManager(socketManager, botId, consoleUtil);
         socketManager.startServer();

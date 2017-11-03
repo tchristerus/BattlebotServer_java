@@ -37,4 +37,8 @@ public class ConfigUtil {
 
         return botsStructs;
     }
+
+    public String getHostAddress() throws IOException {
+        return br.readLine();
+    }
 }
