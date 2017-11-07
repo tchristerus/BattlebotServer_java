@@ -87,16 +87,16 @@
         }
     });
 
-    $("body").keydown(function (data) {
-        switch(data.which){
-            case 38:
-                sendCharToBot($("#botNameField").val(),action);
-                break;
-        }
-    });
-    $("body").keyup(function (data) {
-        sendCharToBot($("#botNameField").val(),5);
-    });
+    // $("body").keydown(function (data) {
+    //     switch(data.which){
+    //         case 38:
+    //             sendCharToBot($("#botNameField").val(),action);
+    //             break;
+    //     }
+    // });
+    // $("body").keyup(function (data) {
+    //     sendCharToBot($("#botNameField").val(),5);
+    // });
 
 
     function close(){

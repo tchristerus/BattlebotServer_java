@@ -4,7 +4,8 @@
     float: left;
     padding: 10px;
     border-radius: 5px;
-    margin-top: 50px;
+    /*margin-top: 50px;*/
+    margin: 50px auto;
 }
 
 .section
