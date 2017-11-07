@@ -55,6 +55,12 @@
     margin-left:50px;
 }
 
+#left, #right, #up, #down, #triangle, #square, #circle, #cross, #start, #select{
+    background-color: #000;
+    cursor: pointer;
+}
+
+
 #left:active, #right:active, #up:active, #down:active, #triangle:active, #square:active, #circle:active, #cross:active, #start:active, #select:active{
     background-color: #000;
 }
