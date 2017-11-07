@@ -79,9 +79,17 @@
                 sendCharToBot($("#botNameField").val(),action);
             });
 
+            $("#" + id).on('touchstart', function () {
+                sendCharToBot($("#botNameField").val(),action);
+            });
+
             if(sendStop){
                 $("#" + id).mouseup(function () {
                     sendCharToBot($("#botNameField").val(),5);
+                });
+
+                $("#" + id).on('touchend', function () {
+                    sendCharToBot($("#botNameField").val(),action);
                 });
             }
         }
