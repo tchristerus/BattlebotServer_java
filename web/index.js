@@ -1,4 +1,4 @@
-(function(){
+// (function(){
     var socket = io.connect('http://battlebot.serverict.nl:6969');
     var latestUpdate = new Array();
     //  addOrUpdateBot(testBot);
@@ -62,10 +62,17 @@
         $("#btnConnect").click(function(){
             reconnect($("#connectBot").val(), null);
         });
+
         addControlerButton("up", 1, 38);
         addControlerButton("right", 2, 39);
         addControlerButton("down", 3, 40);
         addControlerButton("left", 4, 37);
+        addControlerButton("stop", 5, 37);
+        addControlerButton("square", 6, 37);
+        addControlerButton("triangle", 7, 37);
+        addControlerButton("circle", 8, 37);
+        addControlerButton("start", 9, 37);
+        addControlerButton("cross", 10, 37);
 
         function addControlerButton(id, action, keyboardKey){
             $("#" + id).mousedown(function () {
@@ -133,4 +140,4 @@
             latestUpdate[jsonobj.mac] = Date.now();
         }
     }
-})();
+// })();
