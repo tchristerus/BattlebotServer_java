@@ -56,7 +56,6 @@
 }
 
 #left, #right, #up, #down, #triangle, #square, #circle, #cross, #start, #select{
-    background-color: #000;
     cursor: pointer;
 }
 
