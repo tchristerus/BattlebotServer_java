@@ -63,27 +63,28 @@
             reconnect($("#connectBot").val(), null);
         });
 
-        addControlerButton("up", 1, 38);
-        addControlerButton("right", 2, 39);
-        addControlerButton("down", 3, 40);
-        addControlerButton("left", 4, 37);
-        addControlerButton("stop", 5, 37);
-        addControlerButton("square", 6, 37);
-        addControlerButton("triangle", 7, 37);
-        addControlerButton("circle", 8, 37);
-        addControlerButton("start", 9, 37);
-        addControlerButton("cross", 10, 37);
+        addControlerButton("up", 1, 38, true);
+        addControlerButton("right", 2, 39, true);
+        addControlerButton("down", 3, 40, true);
+        addControlerButton("left", 4, 37, true);
+        addControlerButton("stop", 5, 37, false);
+        addControlerButton("square", 6, 37, false);
+        addControlerButton("triangle", 7, 37, false);
+        addControlerButton("circle", 8, 37, false);
+        addControlerButton("start", 9, 37, false);
+        addControlerButton("cross", 10, 37, false);
 
-        function addControlerButton(id, action, keyboardKey){
+        function addControlerButton(id, action, keyboardKey, sendStop){
             $("#" + id).mousedown(function () {
                 sendCharToBot($("#botNameField").val(),action);
             });
 
-            $("#" + id).mouseup(function () {
-                sendCharToBot($("#botNameField").val(),5);
-            });
+            if(sendStop){
+                $("#" + id).mouseup(function () {
+                    sendCharToBot($("#botNameField").val(),5);
+                });
+            }
         }
-
     });
 
     $("body").keydown(function (data) {
