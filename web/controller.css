@@ -55,6 +55,10 @@
     margin-left:50px;
 }
 
+#left:active, #right:active, #up:active, #down:active, #triangle:active, #square:active, #circle:active, #cross:active, #start:active, #select:active{
+    background-color: #000;
+}
+
 #right
 {
     background-color: #4b4c4d;
