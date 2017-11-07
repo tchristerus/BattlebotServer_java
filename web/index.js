@@ -1,4 +1,4 @@
-var socket = io.connect('http://battlebot.serverict.nl:6969');
+var socket = io.connect('localhost:6969');
 var latestUpdate = new Array();
 //  addOrUpdateBot(testBot);
 
@@ -66,6 +66,7 @@ $(document).ready(function(){
     addControlerButton("right", 2, 39);
     addControlerButton("down", 3, 40);
     addControlerButton("left", 4, 37);
+
 
     function addControlerButton(id, action, keyboardKey){
         $("#" + id).mousedown(function () {
