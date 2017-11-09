@@ -121,7 +121,7 @@
     function reconnect(name, mac){
 
         if(name == null)
-            name=prompt("Please enter botname", "")
+            name=prompt("Please enter the botname", "")
 
         socket.emit("reconnectEvent", name);
         if(mac){
