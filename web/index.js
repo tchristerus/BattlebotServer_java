@@ -119,6 +119,10 @@
         console.info("Search command send...")
     }
     function reconnect(name, mac){
+
+        if(name == null)
+            name=prompt("Please enter botname", "")
+
         socket.emit("reconnectEvent", name);
         if(mac){
             $("button#" +mac).html("Verbinden...");
