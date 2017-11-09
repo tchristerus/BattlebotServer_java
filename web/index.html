@@ -31,11 +31,21 @@
                     </tbody>
                 </table>
             </div>
+
+            <div class="spacer"></div>
+
             <div class="row">
-                <div class="col-md-12 console">
-                    <table id="console">
-                        <td>Welcome wizard, i hope you're having a great day!</td>
-                    </table>
+                <div class="col-md-12">
+
+                    <button class="btn btn-secondary btnConnectManual" type="button" onclick="reconnect('INF1F1A', null)">INF1F1A</button>
+                    <button class="btn btn-secondary btnConnectManual" type="button" onclick="reconnect('INF1F1B', null)">INF1F1B</button>
+                    <button class="btn btn-secondary btnConnectManual" type="button" onclick="reconnect('INF1F2A', null)">INF1F2A</button>
+                    <button class="btn btn-secondary btnConnectManual" type="button" onclick="reconnect('INF1F2B', null)">INF1F2B</button>
+                    <div class="console">
+                        <table id="console">
+                            <td>Welcome wizard, i hope you're having a great day!</td>
+                        </table>
+                    </div>
                 </div>
 
                 <div class="col-md-12">
@@ -45,10 +55,16 @@
                             <button class="btn btn-secondary" id="btnConnect" type="button">Connect</button>
                         </span>
                     </div>
+
+                    <p>&nbsp;</p>
+
+
+
                 </div>
 
+
                 <div id="controller">
-                    <input type="email" class="form-control" id="botNameField" placeholder="Botnaam">
+                    <input type="text" class="form-control" id="botNameField" placeholder="Botnaam">
                     <div class="section">
                         <button id="left">
 
@@ -89,7 +105,6 @@
             </div>
         </div>
 </div>
-
 
 
 

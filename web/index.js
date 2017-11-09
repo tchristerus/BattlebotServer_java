@@ -58,10 +58,12 @@
         $("button#" + jsonobj.mac).attr("disabled", false);
     });
 
+
     $(document).ready(function(){
         $("#btnConnect").click(function(){
             reconnect($("#connectBot").val(), null);
         });
+
 
         addControlerButton("up", 1, 38, true);
         addControlerButton("right", 2, 39, true);

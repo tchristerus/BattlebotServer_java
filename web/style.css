@@ -23,7 +23,7 @@ button:focus {
 
 .console{
     background-color: #222222;
-    margin-top:100px;
+    margin-top:0px;
     height:400px;
     /*overflow-y: hidden;*/
     overflow-x:hidden;
@@ -36,6 +36,16 @@ button:focus {
     color: limegreen;
 }
 
+.spacer{
+    margin-bottom: 100px;
+}
+
+.btnConnectManual{
+    background: #222 !important;
+    border-bottom: 0;
+    color: limegreen;
+}
+
 .footer {
     position: absolute;
     bottom: 0;
@@ -45,4 +55,6 @@ button:focus {
     line-height: 60px; /* Vertically center the text there */
     background-color: #f5f5f5;
 }
+
+
 
