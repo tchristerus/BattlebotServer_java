@@ -1,4 +1,4 @@
-// (function(){
+(function(){
     var socket = io.connect('http://battlebot.serverict.nl:6969');
     var latestUpdate = new Array();
     //  addOrUpdateBot(testBot);
@@ -155,4 +155,9 @@
             latestUpdate[jsonobj.mac] = Date.now();
         }
     }
-// })();
+})();
+
+
+function contronller(){
+    $("#controller").fadeIn();
+}
