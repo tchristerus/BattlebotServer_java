@@ -54,7 +54,7 @@
 
     socket.on('connection_failed', function(data){
         var jsonobj = $.parseJSON(data);
-        $("button#" + jsonobj.mac).html("Opniew verbinden");
+        $("button#" + jsonobj.mac).html("Opnieuw verbinden");
         $("button#" + jsonobj.mac).attr("disabled", false);
     });
 
