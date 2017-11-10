@@ -1,4 +1,4 @@
-(function(){
+// (function(){
     var socket = io.connect('http://battlebot.serverict.nl:6969');
     var latestUpdate = new Array();
     //  addOrUpdateBot(testBot);
@@ -139,11 +139,12 @@
             if($(this).attr("mac") == jsonobj.mac){
                 $(this).find("td").eq(1).html(jsonobj.speed);
                 $(this).find("td").eq(2).html(jsonobj.distance);
-                $(this).find("td").eq(3).html(jsonobj.time);
+                $(this).find("td").eq(3).html(moment().startOf('day').seconds(jsonobj.time).format('H:mm:s'));
                 $("button#" +jsonobj.mac).html("Opnieuw verbinden");
                 $("button#" +jsonobj.mac).attr("disabled", false);
                 alreadyExist = true;
                 latestUpdate[jsonobj.mac] = Date.now();
+
             }
         });
 
@@ -155,7 +156,7 @@
             latestUpdate[jsonobj.mac] = Date.now();
         }
     }
-})();
+// })();
 
 
 function controller(){
