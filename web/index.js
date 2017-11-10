@@ -158,6 +158,8 @@
 })();
 
 
-function contronller(){
+function controller(){
     $("#controller").fadeIn();
+
+    console.log("Controller has started");
 }
