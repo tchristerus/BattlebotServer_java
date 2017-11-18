@@ -64,6 +64,61 @@
             reconnect($("#connectBot").val(), null);
         });
 
+        $("body").keydown(function(event){
+            var key = event.which;
+
+            switch(key){
+                case 38:
+                    $("#up").mousedown();
+                    event.preventDefault();
+                    console.info("up down");
+                    // forward
+                    break;
+                case 39:
+                    $("#right").mousedown();
+                    event.preventDefault();
+                    // right
+                    break;
+                case 40:
+                    $("#down").mousedown();
+                    event.preventDefault();
+                    // down
+                    break;
+                case 37:
+                    $("#left").mousedown();
+                    event.preventDefault();
+                    // left
+                    break;
+            }
+        });
+
+
+        $(window).keyup(function(event){
+            var key = event.which;
+
+            switch(key){
+                case 38:
+                    $("#up").mouseup();
+                    event.preventDefault();
+                    // forward
+                    break;
+                case 39:
+                    $("#right").mouseup();
+                    event.preventDefault();
+                    // right
+                    break;
+                case 40:
+                    $("#down").mouseup();
+                    event.preventDefault();
+                    // down
+                    break;
+                case 37:
+                    $("#left").mouseup();
+                    event.preventDefault();
+                    // left
+                    break;
+            }
+        });
 
         addControlerButton("up", 1, 38, true);
         addControlerButton("right", 2, 39, true);
