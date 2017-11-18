@@ -160,7 +160,7 @@
 
 
 function controller(){
-    $("#controller").fadeIn();
+    // $("#controller").fadeIn();
 
     console.log("Controller has started");
 }
